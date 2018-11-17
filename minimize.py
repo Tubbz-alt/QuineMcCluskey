@@ -67,7 +67,7 @@ class Term:
 
 def differ_by_one(nums):
     """
-
+    Function returns true if the binary strings differ by only one bit, else false
     :param nums: tuple of binary strings
     :return: true if it differs by only one bit, else false
     """
@@ -85,8 +85,9 @@ def differ_by_one(nums):
 
 def reduce_bits(nums):
     """
-    :param nums: tuple of binary strings
-    :return: list of reduced binary strings
+    Function returns a reduced Term object
+    :param nums: tuple of Term objects
+    :return: reduced Term object
     """
     num1, num2 = nums
     result = ""
@@ -97,6 +98,7 @@ def reduce_bits(nums):
 
 def get_pairs(terms):
     """
+    Function uses itertools.combinations to generate possible permutations of minterms and xterms
     :param terms: iterable of minterms & xterms
     :return: generator of combinations
     """
@@ -105,6 +107,7 @@ def get_pairs(terms):
 
 def reduce_pairs(pairs):
     """
+    Function takes an input of possible pairs and returns a set of reduced pairs
     :param pairs: iterable of tuples
     :return: set of reduced Term objects
     """
@@ -113,8 +116,9 @@ def reduce_pairs(pairs):
 
 def format_minimized_expression(prime_implicants):
     """
+    Function formats reduced expression
     :param prime_implicants: list of Term objects
-    :return: str formatted logic expression
+    :return result: string formatted logic expression
     """
     if not prime_implicants:  # If no prime implicants, return 0
         return '0'
@@ -136,6 +140,8 @@ def format_minimized_expression(prime_implicants):
 
 def terms_covered_once(prime_implicants, m_terms):
     """
+    Function returns list of essential-prime-implicants. If any term in m_terms is covered by only one prime-implicant,
+    that prime-implicant is considered to be essential.
     :param prime_implicants: list of prime implicants
     :param m_terms: list of minterms (as integers, not Term objects)
     :return: terms that are only covered once by prime implicants
@@ -149,10 +155,10 @@ def terms_covered_once(prime_implicants, m_terms):
 
 def get_term_max_coverage(prime_implicants, m_terms):
     """
-    Function sorts prime implicants based on how many m_terms are covered
-    :param prime_implicants: list of prime implicants
+    Function returns the prime-implicant that covers the most m_terms
+    :param prime_implicants: list of prime-implicants
     :param m_terms: list of minterms (integers, not Term objects)
-    :return: remaining minterms
+    :return term_max_coverage: prime-implicant that covers the most m_terms
     """
     term_max_coverage = max(prime_implicants, key=lambda prime_implicant: len(
         [i for i in prime_implicant.get_covered_terms() if i in m_terms]))
@@ -162,10 +168,11 @@ def get_term_max_coverage(prime_implicants, m_terms):
 
 def minimize(n_bits, m_terms, x_terms):
     """
+    Function minimizes a sum-of-minterms equation, and returns a list of essential-prime-implicants.
     :param n_bits: number of bits in equation
     :param m_terms: list of integer minterms
-    :param x_terms: list of integer don't care terms
-    :return: list of essential prime implicants (Term objects)
+    :param x_terms: list of integer don't-care terms
+    :return: list of essential-prime-implicants (Term objects)
     """
     # Error checking
     if max(m_terms, default=0) > 2 ** n_bits or max(x_terms, default=0) > 2 ** n_bits:
